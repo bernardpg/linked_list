@@ -1,201 +1,124 @@
+// linked_list.cpp : 定義主控台應用程式的進入點。
+//
+
+#include "stdafx.h"
+#include <stdlib.h>
+#include <stdio.h>
 typedef struct node
-
-
 {
-
-
 	int num;
-
-
 	struct node *next;
-
-
 }NODE;
-
-
-
-
+struct NODE*head;//golobal variable
 NODE*get_node(void)
-
-
 {
-
-
-	NODE *link;//產生一個link
-
-
-	link = (NODE*)malloc(sizeof(NODE));//產生node
-
-
+	NODE *link;//產生一個link pointer to node
+	link = (NODE*)malloc(sizeof(NODE));//(同樣指向node的pointer)產生node
 	if (link == NULL)
-
-
 	{
-
-
 		printf("memory_leak");
-
-
 		//exit(1);
 	}
-
-
 	return(link);
-
-
 }
-
-NODE*head;
-
-
 NODE *add_node(NODE*head, NODE*ptr, int data)
-
-
 {
-
-
 	NODE *new_node;
-
-
 	new_node = get_node();
-
-
 	new_node->num = data;
-
-
 	new_node->next = NULL;//initialize
-
-
 	if (ptr == NULL) //first_point
-
-
 	{
-
-
 		new_node->next = head;
-
-
 		head = new_node;
-
-
 	}
-
-
 	else
-
-
 	{
-
-
 		if (ptr->next == NULL)//boundary_condition(last_point)
-
-
 		{
-
-
 			new_node->next = NULL;
-
-
 			ptr = new_node;
-
-
 		}
-
-
 		else
-
-
 		{
-
-
 			new_node->next = ptr->next;//generalize(ptr structure point next)
-
-
 			ptr = new_node;
-
-
 		}
-
-
 	}
-
-
 	return(head);
-
-
 }
-
-
-NODE *free_node(NODE *p)//delete linked_list_node
-
-
+NODE *find_node(NODE*head, int num)
 {
+	NODE*ptr;
 
-
-	free(p);
-
-
-};
-
-
+	ptr = head;
+	while (ptr != NULL)
+	{
+		if (ptr->num == num)
+			return (ptr);
+		ptr = ptr->next;
+	}
+	return(ptr);
+}
 NODE *cut_node(NODE*head, NODE*ptr)
-
-
 {
-
-
 	NODE*previous; //指向前一個節點
-
-
 	if (ptr == head) //現在這個點也是起點
-
-
 	{
-
-
 		head = head->next;
-
-
 		return(head);
-
-
 	}
-
-
 	else
-
-
 	{
-
-
 		previous = head;//find_ptr of the previous
-
-
 		while (previous->next != ptr)
-
-
 			previous = previous->next;
-
-
 		if (ptr->next = NULL)
-
-
 			previous->next = NULL;
-
-
 		else
-
-
 			previous->next = ptr->next;
-
-
 	}
-
-
-	free_node(ptr);
-
-
+	free(ptr);
 	return(head);
-
-
 }
+NODE *search_node(NODE *p, int num)
+/* 自節點 p 之後尋找一個節點其 data 項目為 search_data 之值*/
+{
+	NODE *q;
+	q = p->next; /* q 指向節點 p 之後第一個節點 */
+	while (q != NULL && q->num != num)
+		q = q->next; /* q 改指向下一個節點 */
+	return(q);
+}
+void print(NODE* head)
+{
+	NODE* ptr = head;
+	printf("LIST is");
+	//printf("%d   ", head->num);
+	//print(head->next);
+	while (ptr != NULL)
+	{
+	printf("%d  ", ptr->num);
+	ptr = ptr->next;
+	}
+}
+int main()
+{
+	 NODE *ptr;
+	head = NULL;//empty list
+	ptr = find_node(head,30);
+	head = add_node(head,ptr,40);
+	head = add_node(head, ptr, 50);
+	printf("LIST is");
+	print(head);
+	//system("pause");
+	//print();
+	return 0;
+}
+
+/*NODE* print(NODE*head)
+{
+	struct NODE*
+		return
+}*/
+
